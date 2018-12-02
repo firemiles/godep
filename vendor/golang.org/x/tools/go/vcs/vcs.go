@@ -421,6 +421,7 @@ func RepoRootForImportPathStatic(importPath, scheme string) (*RepoRoot, error) {
 			continue
 		}
 		m := srv.regexp.FindStringSubmatch(importPath)
+		fmt.Println(m)
 		if m == nil {
 			if srv.prefix != "" {
 				return nil, fmt.Errorf("invalid %s import path %q", srv.prefix, importPath)
@@ -598,7 +599,14 @@ var vcsPaths = []*vcsPath{
 		repo:   "https://{root}",
 		check:  noVCSSuffix,
 	},
-
+	// cloud.google.com
+	{
+		prefix: "cloud.google.com",
+		re:     `^(?P<root>cloud\.google\.com/[A-Za-z0-9_.\-]+/[A-Za-z0-9_.\-]+)(/[A-Za-z0-9_.\-]+)*$`,
+		vcs:    "git",
+		repo:   "https://{root}",
+		check:  noVCSSuffix,
+	},
 	// Github
 	{
 		prefix: "github.com/",
